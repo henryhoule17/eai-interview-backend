@@ -12,6 +12,11 @@ from sqlalchemy.orm import sessionmaker, Session, relationship
 
 # Database setup
 DATABASE_URL = os.getenv('DATABASE_URL', 'postgresql://postgres:postgres@localhost:5432/orders')
+
+# If using Railway, they provide a PostgreSQL URL that needs to be modified for SQLAlchemy
+if DATABASE_URL.startswith('postgres://'):
+    DATABASE_URL = DATABASE_URL.replace('postgres://', 'postgresql://', 1)
+
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
